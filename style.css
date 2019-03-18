@@ -1,0 +1,65 @@
+
+
+#header {
+    background-color:black;
+    color:white;
+    padding-right: 0%;
+    height:60px;
+    width:100%;
+}
+
+#cart{
+    float:right;
+}
+
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:100%;
+    width:250px;
+    float:left;
+    padding:5px; 
+}
+#list {
+    width:350px;
+    float:left;
+    padding:10px; 
+    height:100%;
+}
+
+
+.shoppingCart{
+    padding-right: 0px;
+    width: 30px;
+    height: 30px;
+    background-color: aqua;
+}
+
+html,body{
+    height: 100%;
+}
+
+table tr td img{
+    width:100px;
+    height:100px;
+    background-color: blue;
+}
+
+.pagination {
+    display: inline-block;
+    position:absolute;
+    bottom:0px;
+    padding:0px;
+    margin:0px;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+
+
+
+
