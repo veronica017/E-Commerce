@@ -1,99 +1,326 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="UTF-8">
         <title>E-Commerce</title>
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
-    <body>
+    <body onload="start()">
         <a href="index.html">
             <div id="header">
-                    <table id="cart">
-                        <tr>
-                            <td><image class="shoppingCart" src="shoppingCart.png"></td>
-                            <td>number</td>
-                        </tr>
-                    </table>
+              
             </div>
-
-            
         </a>
+		<table id="cart">
+                  <tr>
+                      <td><image class="shoppingCart" src="shoppingCart.png" onclick="showCart()"></td>
+                      <td id="cartNum"></td>
+                  </tr>
+              </table>
 
-
+        <div id="content">
+        </div>
         <div id="nav">
-            Category 1<br>
-            Category 2<br>
-            Category 3<br>
+          <ul>
+            <!--Books<br>
+            Albums<br>
+            DVDs<br> -->
+          </ul>
         </div>
 
         <div id="list">
-            <item>
+        <!--    <item>
                 <table>
                     <tr>
                     <td><img src=#></td>
-                    <td><ul style="list-style-type:none"> 
-                            
+                    <td><ul style="list-style-type:none">
+
                                 <li>item name</li>
                                 <li>item price</li>
                                 <li>item description</li>
                                 <li>
                                     <button>Add to Cart</button>
                                 </li>
-                           
+
                     </ul>
                     </td>
                     </tr>
                 </table>
-            <item> 
+            <item>
             <item>
                 <table>
                     <tr>
                     <td><img src=#></td>
-                    <td><ul style="list-style-type:none"> 
-                            
+                    <td><ul style="list-style-type:none">
+
                         <li>item name</li>
                         <li>item price</li>
                         <li>item description</li>
                         <li>
                             <button>Add to Cart</button>
                         </li>
-                           
+
                     </ul>
                     </td>
                     </tr>
                 </table>
-            <item>  
+            <item>
             <item>
                 <table>
                     <tr>
                     <td><img src=#></td>
-                    <td><ul style="list-style-type:none"> 
-                            
+                    <td><ul style="list-style-type:none">
+
                                 <li>item name</li>
                                 <li>item price</li>
                                 <li>item description</li>
                                 <li>
                                     <button>Add to Cart</button>
                                 </li>
-                           
+
                     </ul>
                     </td>
                     </tr>
                 </table>
-            <item> 
-            
-                
+            <item>
+           -->
+
         </div>
-        <div class="pagination">
-                <a href="#">&laquo;</a>
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">6</a>
-                <a href="#">&raquo;</a>
+
+        <div id="pagination">
+          <table>
+            <tr>
+                <td><div onclick="loadPreviousPage()">&laquo; Previous Page</a></div>
+              <td >  Page<input id="page" type="number" value="1" onchange="loadSpecifiedPage()"/>of <page id="totalPages"></page></td>
+              <td>  <div onclick="loadNextPage()">Next Page &raquo;</div></td>
+            </tr>
+          <table>
             </div>
 
+        <script>
+        var record=0;
+        var type=1;
+        var pageNum=0;
+        function start(){
+            loadCategories();
+            loadInitialPage();
+            loadCartNumber(0,0);
+        }
+            function  loadCategories(){
+              var xmlhttp;
+      		      if (window.XMLHttpRequest){
+         		       xmlhttp = new XMLHttpRequest();
+      		         }else{
+         		          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      		            }
+      		              xmlhttp.onreadystatechange = function(){
+      			                 if (xmlhttp.readyState == 4  && xmlhttp.status ==200){
+                                 txt	=	"<ul>";
+                                 json=	JSON.parse(	xmlhttp.responseText);
+                                 var i=0;
+                                   for	(	i	=	0	;	i	<	3	;	i++	){
+                                     txt=txt+'<li onclick=display('+i+')>'+json[i]["itemCategory"]+"</li>";
+                                   }
+                                   txt=txt+"</ul>";
+                                   document.getElementById("nav").innerHTML=txt;
+
+      			                  }
+   			}
+   			xmlhttp.open("GET","handleCategoryDisplay.php", true);
+   			xmlhttp.send();
+            }
+            function loadInitialPage(){
+
+                var xmlhttp;
+                if (window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }else{
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                 }
+	            xmlhttp.onreadystatechange = function(){
+                if (xmlhttp.readyState == 4  && xmlhttp.status ==200){
+                  txt	=	"";
+                  json=	JSON.parse(	xmlhttp.responseText);
+                  var i=0;
+                  for	(	i	=	0	;	i	<	json.length;	i++	){
+
+                      txt=txt+"<item><table><tr><td><img src="+json[i]["itemImage"]+"></td><td><ul><li>Name: "
+                        +json[i]["itemName"]+"</li><li> Price: $"+json[i]["itemPrice"]
+                        +"</li><li>Description: "+json[i]["itemDescription"]+'</li><li><button onclick=addToCart('+json[i]["itemID"]+')>Add to Cart</button></li></ul></td></tr></table></item>';
+
+
+                    /*  txt=txt+"<item><table><tr><td><img src="+json[i]["itemImage"]+"</td><td><ul><li>Name: "
+                      +json[i]["itemName"]+"</li><li> Price: $"+json[i]["itemPrice"]
+                      +"</li><li>Description: "+json[i]["itemDescription"]+"</li><li><button>Add to Cart</button></li></ul></td></tr></table></item>"
+									*///txt	=	txt	+	json[i]["itemID"]	+	"	-	";
+                }
+                /*  t="";
+                  t="<table><tr>"+
+                        "<td><div onclick='loadPreviousPage()'>&laquo; Previous Page</a></div>"+
+                      "<td >  Page<input id='page' type='number' value='1' onchange='loadSpecifiedPage()'/>of <page id='totalPages'></page></td>"+
+                    "  <td>  <div onclick='loadNextPage()'>Next Page &raquo;</div></td></tr></table>";*/
+
+                  document.getElementById("list").innerHTML=txt;
+                  document.getElementById("page").value = record/3+1;
+                  //msg='<input id="page" type="number" value="1"/>';
+                //  document.getElementById("num").innerHTML=msg;
+
+                }
+            }
+            xmlhttp.open("GET","handleItemDisplay.php?action=load&record="+record+"&type="+type, true);
+            xmlhttp.send();
+            loadCount();
+            }
+
+            function loadPreviousPage(){
+              if(record>=pageNum)
+                record=record-3;
+                loadInitialPage();
+              }
+              function loadNextPage(){
+                if(record<pageNum*3-3){
+                  record=record+3;
+                  loadInitialPage();
+                }
+              }
+              function display(id){
+              //alert(id);
+              record=0;
+              type=id+1;
+              loadInitialPage();
+
+              }
+
+              function loadSpecifiedPage(){
+                var number;
+                number = document.getElementById("page").value;
+                if(number>0 && number<=pageNum){
+                  record=number*3-3;
+                  loadInitialPage();
+                }
+              }
+
+              function loadCount(){
+                //document.getElementById("totalPages").innerHTML="hello";
+                var xmlhttp;
+                if (window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }else{
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                 }
+                 xmlhttp.onreadystatechange = function(){
+                   if (xmlhttp.readyState == 4  && xmlhttp.status ==200){
+                  //   txt	=	"";
+                    // json=	JSON.parse(	xmlhttp.responseText);
+                     //document.getElementById("totalPages").value = json;
+                     //msg='<input id="page" type="number" value="1"/>';
+                   //  document.getElementById("num").innerHTML=msg;
+                   txt	=	"";
+                   json=	JSON.parse(	xmlhttp.responseText);
+
+                   pageNum=json[0]["COUNT(*)"];
+                   if(pageNum%3!=0){
+                     pageNum=pageNum/3+1;
+                   }
+                   else{
+                     pageNum=pageNum/3;
+                   }
+                   document.getElementById("totalPages").innerHTML=pageNum;
+
+                   }
+               }
+              xmlhttp.open("GET","handleItemDisplay.php?action=total&type="+type, true);
+               xmlhttp.send();
+
+              }
+              function loadCartNumber(id,updateNumber){
+                //document.getElementById("cartNum").innerHTML=10;
+                var xmlhttp;
+                if (window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }else{
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                 }
+
+                xmlhttp.onreadystatechange = function(){
+                  if (xmlhttp.readyState == 4  && xmlhttp.status ==200){
+                    var mesgs = document.getElementById("cartNum");
+					           mesgs.innerHTML = xmlhttp.responseText;
+                  }
+                }
+                xmlhttp.open("GET", "handleAddToCart.php?action=update&itemID="+id+"&updateNumber="+updateNumber,true);
+                xmlhttp.send();
+              }
+
+              function addToCart(id){
+                loadCartNumber(id,1);
+              }
+
+              function showCart(){
+                document.getElementById("list").style.display = "none";
+                document.getElementById("nav").style.display = "none";
+                document.getElementById("pagination").style.display = "none";
+                var xmlhttp;
+                if (window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }else{
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                 }
+
+                xmlhttp.onreadystatechange = function(){
+                  if (xmlhttp.readyState == 4  && xmlhttp.status ==200){
+                    txt	=	"<h1>Shopping Cart</h1>";
+                    var totalPrice=0;
+                    var totalNum=0;
+                    json=	JSON.parse(	xmlhttp.responseText);
+                    txt=txt+"<b><table><tr><th></th><th></th><th>Price</th><th>Quantity</th></tr>";
+                    for	(	i	=	0	;	i	<	json.length;	i=i+2	){
+
+                      txt=txt+
+                      "<tr><td><img src="+json[i]["itemImage"]+"></td><td><ul><li>"
+                        +json[i]["itemName"]+"</li><li>"
+                          +json[i]["itemDescription"]+"</li></ul></td><td>"+json[i]["itemPrice"]+"</td>"
+                          +"<td><input type='number' id='"+json[i]["itemID"]+"'value='"+json[i+1]+"'onchange=changeCart("+json[i]["itemID"]+","+json[i+1]+")></td></tr>";
+                          var n=parseFloat(json[i+1]);
+                          totalNum+=n;
+                          totalPrice+=json[i+1]*json[i]["itemPrice"];
+                  }
+                  totalPrice=totalPrice.toFixed(2);
+                  txt=txt+"</table></b>";
+                  txt=txt+"<h3>Cart subtotal ("+totalNum+" item(s)): $"+totalPrice+"</h3>"
+                  +"<button onclick='checkOut("+totalNum+","+totalPrice+")'>Proceed to check out</button>";
+                     document.getElementById("content").innerHTML=txt;
+
+                    //var mesgs = document.getElementById("content");
+					         // mesgs.innerHTML = xmlhttp.responseText;
+                  }
+                }
+                xmlhttp.open("GET", "handleCartContent.php",true);
+                xmlhttp.send();
+              }
+
+              function changeCart(id,value){
+                //showCart();
+                var current=document.getElementById(id).value;
+                if(value!=current){
+                  loadCartNumber(id,current-value);
+                }
+                showCart();
+              }
+
+              function checkOut(number,price){
+                document.getElementById("list").style.display = "none";
+                document.getElementById("nav").style.display = "none";
+                document.getElementById("pagination").style.display = "none";
+                loadCartNumber(-1,0);
+                txt="";
+                txt="<h4>You have successfully placed order for "+number+"item(s)</h4><h3>$"+price+" paid</h3><h4><a href='index.html'>continue browing &#x226B</a> </h4>";
+                document.getElementById("content").innerHTML=txt;
+              }
+
+
+        </script>
     </body>
-    
+
 </html>

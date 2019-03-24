@@ -1,8 +1,8 @@
 
 
 #header {
-    background-color:black;
-    color:white;
+    background-color: #4e463e;
+
     padding-right: 0%;
     height:60px;
     width:100%;
@@ -10,20 +10,39 @@
 
 #cart{
     float:right;
+    padding-right: 40px;
+    background-color:#222;
+    color:white;
 }
 
 #nav {
     line-height:30px;
-    background-color:#eeeeee;
+    background-color:#635e52;
+    font-size:1.5rem;
+
     height:100%;
     width:250px;
     float:left;
-    padding:5px; 
+    padding:5px;
 }
+
+#nav ul li{
+  padding-top:10px;
+  color:#dbd3d0;
+}
+#nav ul li:hover{
+  background-color: #595959;
+  color:white;
+  font-size:2rem;
+
+}
+
+
 #list {
-    width:350px;
-    float:left;
-    padding:10px; 
+
+
+    margin-left: 0px;
+    padding:10px;
     height:100%;
 }
 
@@ -32,34 +51,133 @@
     padding-right: 0px;
     width: 30px;
     height: 30px;
-    background-color: aqua;
+    background-color: #fcf8e3;
+
 }
 
 html,body{
     height: 100%;
+    margin: 0;
+  font-family: "Ubuntu", Arial, "sans-serif";
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 2.2;
+  color: #666;
+  text-align: left;
+  background-color: #222;
 }
 
-table tr td img{
-    width:100px;
-    height:100px;
-    background-color: blue;
+
+item table {
+  width:1000px;
+  margin-left: 400px;
+  border-collapse: collapse;
+  color: #6c757d;
+  text-align: left;
+  background-color: #fcf8e3;
+  margin-top: 20px;
+  height:250px;
+    padding-right:20px;
+
+ }
+
+ tr {
+  padding-top: 10px;
+
+}
+td{
+  padding-right: 10px;
+}
+item table:hover{
+  background-color: #b8b8b8;
 }
 
-.pagination {
-    display: inline-block;
-    position:absolute;
-    bottom:0px;
-    padding:0px;
+
+
+  td img{
+    width:120px;
+    height:150px;
+    background-color: yellow;
+    margin-left: 10px;
+
+}
+
+#pagination {
+  color:white;
+	padding-top:100px;
+    padding-left:800px;
     margin:0px;
   }
-  
-  .pagination a {
+  #pagination:hover{
+      color:#b8b8b8;
+  }
+
+  #pagination a {
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
   }
 
+  ul {
+    list-style-type:none;
+  }
 
+  button {
+  border-radius: 0; }
 
+input,
+button{
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
 
+button,
+input {
+  overflow: visible; }
+
+  button {
+  text-transform: none;
+  -webkit-appearance: button;
+  padding: 5px;
+  background-color:#635e52;
+  margin:10px;
+  color:white;
+    border-style: none;
+  }
+
+  h1,h3,h4{
+    color:white;
+  }
+
+  a{
+    text-decoration:none;
+    color:#d8d4d3;
+    font-size:1rem;
+  }
+  a:hover{
+    color:white;
+  }
+
+  b table{
+    background-color: #d8d4d3;
+
+    margin:50px;
+
+  }
+
+  @media only screen and (max-width: 700px){
+    #nav{
+      height:300px;
+      width:500px;
+    }
+    item table{
+      margin-left:0px;
+      width:500px;
+    }
+    #pagination{
+      padding-left: 0px;
+    }
+  }
